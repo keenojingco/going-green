@@ -1,0 +1,28 @@
+version: "3"
+services:
+    api:
+        build: ./api
+        ports:
+            - "9000:9000"
+        volumes:
+            - ./api:/api
+            - api
+    mysql:
+        image: mysql:5.7
+        environment:
+            MYSQL_USER: 'api'
+            MYSQL_PASSWORD: 'password'
+            MYSQL_ROOT_PASSWORD: 'password'
+        ports:
+            - '3306:3306'
+        expose:
+            - '3306'
+        volumes:
+            - db:/var/lib/mysql
+        networks:
+            - webappnetwork
+networks:
+    webappnetwork:
+        driver: bridge
+volumes:
+    db:
