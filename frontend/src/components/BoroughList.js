@@ -6,22 +6,32 @@ class BoroughList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectBorough: null,
+            selectedBorough: '',
         };
-        this.selectBorough = this.selectBorough.bind(this);
+        this.selectBoroughEvent = this.selectBoroughEvent.bind(this);
     }
     componentDidMount() {
         this.props.fetchBoroughs();
     }
 
-    selectBorough(event) {
-        const borough = event.target.innerHTML;
+    componentDidUpdate() {
+        if(this.state.selectedBorough === '') {
+            const borough = this.props.boroughs.rows[0].borough;
+            this.selectBorough(borough);
+        }
+    }
 
+    selectBorough(borough) {
         this.setState({
-            selectBorough: borough
+            selectedBorough: borough
         }, () => {
-            this.props.fetchBoroughData(borough);
+            this.props.fetchBoroughData(this.state.selectedBorough);
         })
+    }
+
+    selectBoroughEvent(event) {
+        const borough = event.target.value;
+        this.selectBorough(borough);
     }
 
     renderList() {
@@ -32,16 +42,13 @@ class BoroughList extends React.Component {
         }
 
         return (
-            <ul className="list-group">
+            <select className="form-control form-control-lg"
+                onChange={this.selectBoroughEvent}
+            >
                 {boroughs.map(row => (
-                    <li className={"list-group-item" + (this.state.selectBorough === row.borough ? ' active' : '')}
-                        key={row.borough}
-                        onClick={this.selectBorough}
-                    >
-                        {row.borough}
-                    </li>
+                    <option key={row.borough} value={row.borough}>{row.borough}</option>
                 ))}
-            </ul>
+            </select>
         )
     }
 

@@ -3,8 +3,8 @@ import axios from 'axios';
 const API_URL = 'https://data.london.gov.uk/api/table/1px4j_8984h';
 
 export const listBoroughs =  (req, res) => {
-    const RAW_QUERY = '?sql=SELECT DISTINCT borough FROM dataset';
-    axios.get(`${API_URL}/${RAW_QUERY}`)
+    const RAW_QUERY = 'SELECT DISTINCT borough FROM dataset ORDER BY borough ASC';
+    axios.get(`${API_URL}?sql=${RAW_QUERY}`)
         .then((response) => {
             res.send(response.data);
         });
@@ -12,10 +12,8 @@ export const listBoroughs =  (req, res) => {
 
 export const getBorough =  (req, res) => {
     const {borough} = req.params;
-    const RAW_QUERY = `?$order=leggi_year&=borough=${borough}`;
-    //option to expand query
-    //const RAW_QUERY = `?borough=${borough}&leggi_year=2014`;
-    axios.get(`${API_URL}/${RAW_QUERY}`)
+    const RAW_QUERY = `SELECT * FROM dataset WHERE borough='${borough}' ORDER BY leggi_year DESC`;
+    axios.get(`${API_URL}?sql=${RAW_QUERY}`)
         .then((response) => {
             res.send(response.data);
         });
