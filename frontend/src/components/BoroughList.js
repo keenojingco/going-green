@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchBoroughs, fetchBoroughData } from '../actions';
+import { fetchBoroughs, fetchFilteredBoroughData } from '../actions';
 
 class BoroughList extends React.Component {
     constructor(props) {
@@ -10,6 +10,7 @@ class BoroughList extends React.Component {
         };
         this.selectBoroughEvent = this.selectBoroughEvent.bind(this);
     }
+
     componentDidMount() {
         this.props.fetchBoroughs();
     }
@@ -25,7 +26,7 @@ class BoroughList extends React.Component {
         this.setState({
             selectedBorough: borough
         }, () => {
-            this.props.fetchBoroughData(this.state.selectedBorough);
+            this.props.fetchFilteredBoroughData(this.state.selectedBorough);
         })
     }
 
@@ -42,7 +43,7 @@ class BoroughList extends React.Component {
         }
 
         return (
-            <select className="form-control form-control-lg"
+            <select className="form-control"
                 onChange={this.selectBoroughEvent}
             >
                 {boroughs.map(row => (
@@ -54,9 +55,13 @@ class BoroughList extends React.Component {
 
     render() {
         return (
-            <div className="col-md-4">
-                <h2>Borough List</h2>
-                {this.renderList()}
+            <div className="col-md-12 mt-5">
+                <div className="form-group row">
+                    <label htmlFor="borough" className="col-sm-2 col-form-label">Select Borough: </label>
+                    <div class="col-sm-10">
+                        {this.renderList()}
+                    </div>
+                </div>
             </div>
         );
     }
@@ -69,4 +74,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { fetchBoroughs, fetchBoroughData })(BoroughList);
+export default connect(mapStateToProps, { fetchBoroughs, fetchFilteredBoroughData })(BoroughList);
