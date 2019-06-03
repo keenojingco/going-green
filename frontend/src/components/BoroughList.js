@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { fetchBoroughs } from '../actions';
 
 class BoroughList extends React.Component {
     constructor(props) {
@@ -10,7 +12,7 @@ class BoroughList extends React.Component {
         };
     }
     componentDidMount() {
-        this.getBoroughs();
+        this.props.fetchBoroughs();
     }
 
     getBoroughs() {
@@ -25,12 +27,19 @@ class BoroughList extends React.Component {
     }
 
     renderList() {
-        const boroughList = this.state.boroughList;
+        const boroughs = this.props.boroughs.rows;
+
+        if(!boroughs) {
+            return false;
+        }
+
         return (
             <ul className="list-group">
-                {boroughList.map(row => (
-                    <li className="list-group-item">{row.borough}</li>
-                ))}
+                {
+                    boroughs.map(row => (
+                        <li className="list-group-item" key={row.borough}>{row.borough}</li>
+                    ))
+                }
             </ul>
         )
     }
@@ -45,4 +54,11 @@ class BoroughList extends React.Component {
     }
 }
 
-export default BoroughList;
+const mapStateToProps = (state) => {
+    const { boroughs } = state;
+    return {
+        boroughs
+    }
+}
+
+export default connect(mapStateToProps, { fetchBoroughs })(BoroughList);

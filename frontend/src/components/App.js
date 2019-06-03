@@ -1,5 +1,5 @@
 import React from 'react';
-import BoroughList from './BoroughListComponent';
+import BoroughList from './BoroughList';
 import Data from './DataComponent';
 
 class App extends React.Component {
