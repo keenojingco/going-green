@@ -18,3 +18,22 @@ export const getBorough =  (req, res) => {
             res.send(response.data);
         });
 };
+
+export const getFilter = (req, res) => {
+    let RAW_QUERY = `SELECT * FROM dataset WHERE`;
+
+    if (req.query.borough) {
+        RAW_QUERY += ` borough='${req.query.borough}'`
+    }
+
+    if (req.query.fuel) {
+        RAW_QUERY += ` and fuel='${req.query.fuel}'`
+    }
+
+    RAW_QUERY += `ORDER BY leggi_year, sector`;
+
+    axios.get(`${API_URL}?sql=${RAW_QUERY}`)
+        .then((response) => {
+            res.send(response.data);
+        });
+}
