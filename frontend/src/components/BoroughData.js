@@ -3,10 +3,13 @@ import { connect } from 'react-redux';
 import { Chart } from 'react-google-charts';
 
 class BoroughData extends React.Component {
+    /**
+     * TODO: Needs refactoring
+     */
     mapChartData() {
-        const rows = this.props.boroughData.rows;
         const headers = ["Year", "Domestic", "Industrial and Commercial", "Total", "Transport"];
-        let mappedData = [];
+        const mappedData = [headers];
+        const rows = this.props.boroughData.rows;
         let newRow = [];
         let currentYear = null;
 
@@ -32,9 +35,10 @@ class BoroughData extends React.Component {
                 newRow.push(row.kt_co2e);
             }
         });
-        mappedData.unshift(headers)
+
         return mappedData;
     }
+
     renderChart() {
         if (!this.props.boroughData.rows) {
             return false;

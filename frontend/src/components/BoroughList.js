@@ -58,7 +58,7 @@ class BoroughList extends React.Component {
             <div className="col-md-12 mt-5">
                 <div className="form-group row">
                     <label htmlFor="borough" className="col-sm-2 col-form-label">Select Borough: </label>
-                    <div class="col-sm-10">
+                    <div className="col-sm-10">
                         {this.renderList()}
                     </div>
                 </div>

@@ -7,22 +7,17 @@ services:
         volumes:
             - ./api:/api
             - api
-    mysql:
-        image: mysql:5.7
-        environment:
-            MYSQL_USER: 'api'
-            MYSQL_PASSWORD: 'password'
-            MYSQL_ROOT_PASSWORD: 'password'
+    frontend:
+        build: ./frontend
         ports:
-            - '3306:3306'
-        expose:
-            - '3306'
+            - "3000:3000"
         volumes:
-            - db:/var/lib/mysql
+            - ./frontend:/frontend
+            - /frontend/node_modules
+        links:
+            - api
         networks:
             - webappnetwork
 networks:
     webappnetwork:
         driver: bridge
-volumes:
-    db:
