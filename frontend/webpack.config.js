@@ -1,4 +1,7 @@
+require('dotenv').config();
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const PORT = process.env.PORT || 5000;
+const HOST = process.env.HOST || 'localhost';
 
 module.exports = {
     devtool: 'inline-source-map',
@@ -10,8 +13,8 @@ module.exports = {
     },
     devServer: {
         contentBase: './dist',
-        host: '0.0.0.0',
-        port: 3000
+        host: HOST,
+        port: PORT
     },
     module: {
         rules: [
