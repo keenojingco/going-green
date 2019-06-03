@@ -12,7 +12,7 @@ export const listBoroughs =  (req, res) => {
 
 export const getBorough =  (req, res) => {
     const {borough} = req.params;
-    const RAW_QUERY = `?borough=${borough}`;
+    const RAW_QUERY = `?$order=leggi_year&=borough=${borough}`;
     //option to expand query
     //const RAW_QUERY = `?borough=${borough}&leggi_year=2014`;
     axios.get(`${API_URL}/${RAW_QUERY}`)
