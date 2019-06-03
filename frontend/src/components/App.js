@@ -1,6 +1,6 @@
 import React from 'react';
 import BoroughList from './BoroughList';
-import Data from './DataComponent';
+import BoroughData from './BoroughData';
 
 class App extends React.Component {
     render() {
@@ -8,7 +8,7 @@ class App extends React.Component {
             <div className="container">
                 <div className="row">
                     <BoroughList />
-                    <Data />
+                    <BoroughData />
                 </div>
             </div>
         )

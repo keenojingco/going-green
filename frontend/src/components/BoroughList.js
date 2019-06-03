@@ -1,45 +1,46 @@
 import React from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
-import { fetchBoroughs } from '../actions';
+import { fetchBoroughs, fetchBoroughData } from '../actions';
 
 class BoroughList extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
-            boroughList: [],
+            selectBorough: null,
         };
+        this.selectBorough = this.selectBorough.bind(this);
     }
     componentDidMount() {
         this.props.fetchBoroughs();
     }
 
-    getBoroughs() {
-        const API_URL = 'http://localhost:9000/api';
-        const results = axios.get(`${API_URL}/boroughs`)
-            .then((results) => {
-                const { rows } = results.data;
-                this.setState({
-                    boroughList: rows
-                })
-            });
+    selectBorough(event) {
+        const borough = event.target.innerHTML;
+
+        this.setState({
+            selectBorough: borough
+        }, () => {
+            this.props.fetchBoroughData(borough);
+        })
     }
 
     renderList() {
         const boroughs = this.props.boroughs.rows;
 
-        if(!boroughs) {
+        if (!boroughs) {
             return false;
         }
 
         return (
             <ul className="list-group">
-                {
-                    boroughs.map(row => (
-                        <li className="list-group-item" key={row.borough}>{row.borough}</li>
-                    ))
-                }
+                {boroughs.map(row => (
+                    <li className={"list-group-item" + (this.state.selectBorough === row.borough ? ' active' : '')}
+                        key={row.borough}
+                        onClick={this.selectBorough}
+                    >
+                        {row.borough}
+                    </li>
+                ))}
             </ul>
         )
     }
@@ -61,4 +62,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { fetchBoroughs })(BoroughList);
+export default connect(mapStateToProps, { fetchBoroughs, fetchBoroughData })(BoroughList);
